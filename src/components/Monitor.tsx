@@ -2,7 +2,7 @@ import React from "react";
 import {ErrorDataType, ErrorType} from "../App";
 
 type MonitorPropsType = {
-    value: number
+    value: number | string
     isMaxCount: boolean
     error: ErrorType
 
@@ -10,7 +10,8 @@ type MonitorPropsType = {
 
 export const Monitor: React.FC<MonitorPropsType> = (props) => {
     const {value, isMaxCount, error} = props
-
+    const isValueString = typeof value === 'string'
+    const displayValue = error?.text || value
 
     const monitorStyle = {
         margin: "50px auto",
@@ -18,13 +19,16 @@ export const Monitor: React.FC<MonitorPropsType> = (props) => {
         height: "150px",
         border: "5px solid lightseagreen",
         borderRadius: "10px",
-        fontSize: error? "25px" : "120px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        fontSize: isValueString || error ? "25px" : "120px",
         color: isMaxCount || error ? 'red' : 'black'
     }
 
     return (
         <div style={monitorStyle}>
-            {error?.text || value}
+            {displayValue}
         </div>
     )
 }

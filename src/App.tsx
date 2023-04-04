@@ -27,10 +27,21 @@ function App() {
     const [inputStart, setInputStart] = useState<number>(countData.start)
     const [error, setError] = useState<ErrorType>(null)
 
-    let isChangeInput = useRef(true)
+    let isChangeInput = useRef(false)
+
+    //get data from localStorage
+    useEffect(() => {
+        const savingData = localStorage.getItem("countData")
+        if (savingData) {
+            const currentCountData = JSON.parse(savingData)
+            setCount(currentCountData)
+            setInputMax(currentCountData.max)
+            setInputStart(currentCountData.start)
+        }
+    }, [])
 
     //checking for error
-    useEffect (()=> {
+    useEffect(() => {
         let errorValue: ErrorType = null
         if (inputStart >= inputMax) {
             errorValue = {
@@ -46,7 +57,7 @@ function App() {
         }
         setError(errorValue)
 
-    },[inputMax, inputStart])
+    }, [inputMax, inputStart])
 
 
     //count:
@@ -65,26 +76,37 @@ function App() {
         setInputStart(value)
         isChangeInput.current = true
     }
+    // apply settings
+    const setLocalStorage = (countData: CountType) => {
+        localStorage.setItem("countData", JSON.stringify(countData))
+    }
 
     const applySettings = () => {
-        setCount({
+        const currentCountData = {
             count: inputStart,
             start: inputStart,
             max: inputMax
-        })
+        }
+        setCount(currentCountData)
+        setLocalStorage(currentCountData)
         isChangeInput.current = false
     }
 
     //disabling button
     const isError = !!error
     const isMaxCount = countData.count === countData.max
-    const isCountIsStart = isError || countData.count === countData.start
-    const isDisableIncrement = isError || isMaxCount
+
+    const isDisableReset = isError || countData.count === countData.start || isChangeInput.current
+    const isDisableIncrement = isError || isMaxCount || isChangeInput.current
     const isDisableSet = isError || !isChangeInput.current
 
     //error for input
-    let errorInputStart = error?.input === 'start' || error?.input === 'all' || false
-    let errorInputMax = error?.input === 'all' || false
+    const errorInputStart = error?.input === 'start' || error?.input === 'all' || false
+    const errorInputMax = error?.input === 'all' || false
+
+    //monitor value
+    const monitorValue = isChangeInput.current ? 'Enter values and press "Set"' : countData.count
+
     //style
     let styleButtonWrapper = {
         display: "flex",
@@ -97,22 +119,22 @@ function App() {
                 <div className='inputWrapper'>
                     <InputCount changeInput={changeInputMax}
                                 inputValue={inputMax}
-                                name="Max value :"
+                                title="Max value :"
                                 error={errorInputMax}
                     />
                     <InputCount changeInput={changeInputStart}
                                 inputValue={inputStart}
-                                name="Start value :"
+                                title="Start value :"
                                 error={errorInputStart}
                     />
                 </div>
                 <SuperButton cb={applySettings} name={'Set'} isDisabled={isDisableSet}/>
             </div>
             <div className="main">
-                <Monitor value={countData.count} isMaxCount={isMaxCount} error={error}/>
+                <Monitor value={monitorValue} isMaxCount={isMaxCount} error={error}/>
                 <div style={styleButtonWrapper}>
                     <SuperButton cb={changeCount} name={'+'} isDisabled={isDisableIncrement}/>
-                    <SuperButton cb={resetCount} name={'Reset'} isDisabled={isCountIsStart}/>
+                    <SuperButton cb={resetCount} name={'Reset'} isDisabled={isDisableReset}/>
                 </div>
             </div>
         </div>

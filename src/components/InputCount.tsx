@@ -3,12 +3,12 @@ import React, {ChangeEvent} from 'react';
 type InputCountPropsType = {
     changeInput: (value: number) => void
     inputValue: number
-    name: string
+    title: string
     error: boolean
 }
 
 export const InputCount: React.FC<InputCountPropsType> = (props) => {
-    const {changeInput, inputValue, name, error} = props
+    const {changeInput, inputValue, title, error} = props
 
     const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
         changeInput(Number(e.currentTarget.value))
@@ -31,7 +31,7 @@ export const InputCount: React.FC<InputCountPropsType> = (props) => {
 
     return (
         <div style={wrapperStyle}>
-            {name}
+            {title}
             <input type={"number"} style={inputStyle} value={inputValue} onChange={onChangeInputHandler}/>
         </div>
     );
