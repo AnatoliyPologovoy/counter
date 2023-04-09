@@ -14,8 +14,9 @@ export const Monitor: React.FC<MonitorPropsType> = (props) => {
     const displayValue = error?.text || value
 
     const monitorStyle = {
-        margin: "50px auto",
-        width: "85%",
+        margin: "0 auto",
+        marginBottom: "50px",
+        width: "100%",
         height: "150px",
         border: "5px solid lightseagreen",
         borderRadius: "10px",

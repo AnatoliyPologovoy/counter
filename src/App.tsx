@@ -26,6 +26,7 @@ function App() {
     const [inputMax, setInputMax] = useState<number>(countData.max)
     const [inputStart, setInputStart] = useState<number>(countData.start)
     const [error, setError] = useState<ErrorType>(null)
+    const [isEditMode, setIsEditMode] = useState(false)
 
     let isChangeInput = useRef(false)
 
@@ -89,8 +90,15 @@ function App() {
         }
         setCount(currentCountData)
         setLocalStorage(currentCountData)
+        setIsEditMode(false)
         isChangeInput.current = false
     }
+
+    //toggle mode
+    const activateEnableMode = () => {
+        setIsEditMode(true)
+    }
+
 
     //disabling button
     const isError = !!error
@@ -107,36 +115,39 @@ function App() {
     //monitor value
     const monitorValue = isChangeInput.current ? 'Enter values and press "Set"' : countData.count
 
-    //style
-    let styleButtonWrapper = {
-        display: "flex",
-        justifyContent: "space-around"
-    }
+
+    //Settings window
+    const settingsWindow = (
+        <div className="settings">
+            <div className='inputWrapper'>
+                <InputCount changeInput={changeInputMax}
+                            inputValue={inputMax}
+                            title="Max value :"
+                            error={errorInputMax}
+                />
+                <InputCount changeInput={changeInputStart}
+                            inputValue={inputStart}
+                            title="Start value :"
+                            error={errorInputStart}
+                />
+            </div>
+            <SuperButton cb={applySettings} name={'Set'} isDisabled={isDisableSet}/>
+        </div>
+    )
 
     return (
         <div className="App">
-            <div className='settings'>
-                <div className='inputWrapper'>
-                    <InputCount changeInput={changeInputMax}
-                                inputValue={inputMax}
-                                title="Max value :"
-                                error={errorInputMax}
-                    />
-                    <InputCount changeInput={changeInputStart}
-                                inputValue={inputStart}
-                                title="Start value :"
-                                error={errorInputStart}
-                    />
+            {isEditMode ?
+                settingsWindow :
+                <div className="main">
+                    <Monitor value={monitorValue} isMaxCount={isMaxCount} error={error}/>
+                    <div className="styleButtonWrapper">
+                        <SuperButton cb={changeCount} name={'+'} isDisabled={isDisableIncrement}/>
+                        <SuperButton cb={resetCount} name={'Reset'} isDisabled={isDisableReset}/>
+                        <SuperButton cb={activateEnableMode} name={'Set'} isDisabled={false}/>
+                    </div>
                 </div>
-                <SuperButton cb={applySettings} name={'Set'} isDisabled={isDisableSet}/>
-            </div>
-            <div className="main">
-                <Monitor value={monitorValue} isMaxCount={isMaxCount} error={error}/>
-                <div style={styleButtonWrapper}>
-                    <SuperButton cb={changeCount} name={'+'} isDisabled={isDisableIncrement}/>
-                    <SuperButton cb={resetCount} name={'Reset'} isDisabled={isDisableReset}/>
-                </div>
-            </div>
+            }
         </div>
     );
 }
