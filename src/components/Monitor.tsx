@@ -1,5 +1,5 @@
 import React from "react";
-import {ErrorDataType, ErrorType} from "../App";
+import {ErrorType} from "./CountApp";
 
 type MonitorPropsType = {
     value: number | string
