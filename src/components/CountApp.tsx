@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import '../App.css';
 import {Monitor} from "./Monitor";
 import SuperButton from "./SuperButton";
@@ -75,14 +75,14 @@ export function CountApp(props: CountAppPropsType) {
     }, [inputMax, inputStart])
 
     //input
-    const changeInputMax = (value: number) => {
+    const changeInputMax = useCallback((value: number) => {
         setInputMax(value)
         setStatusInputMode(true)
-    }
-    const changeInputStart = (value: number) => {
+    },[])
+    const changeInputStart = useCallback((value: number) => {
         setInputStart(value)
         setStatusInputMode(true)
-    }
+    }, [])
     // apply settings
 
     // set local storage:
@@ -111,31 +111,35 @@ export function CountApp(props: CountAppPropsType) {
     const isDisableSet = isError || !isChangeInputMode
 
     //error for input
-    const errorInputStart = errorData?.input === 'start' || errorData?.input === 'all' || false
-    const errorInputMax = errorData?.input === 'all' || false
+    const errorInputStart = useMemo(() => {
+        return errorData?.input === 'start' || errorData?.input === 'all' || false
+    }, [errorData])
+    const errorInputMax = useMemo(() => {
+        return errorData?.input === 'all' || false
+    }, [errorData])
 
     //monitor value
     const monitorValue = isChangeInputMode ? 'Enter values and press "Set"' : countData.count
 
 
     //Settings window
-    const settingsWindow = (
-        <div className="settings">
+    const settingsWindow = useMemo(() => {
+        return <div className="settings">
             <div className='inputWrapper'>
                 <InputCountMaxValue changeInput={changeInputMax}
-                            inputValue={inputMax}
-                            title="Max value :"
-                            error={errorInputMax}
+                                    inputValue={inputMax}
+                                    title="Max value :"
+                                    error={errorInputMax}
                 />
                 <InputCountStartValue changeInput={changeInputStart}
-                            inputValue={inputStart}
-                            title="Start value :"
-                            error={errorInputStart}
+                                      inputValue={inputStart}
+                                      title="Start value :"
+                                      error={errorInputStart}
                 />
             </div>
             <ButtonSet cb={applySettings} name={'Set'} isDisabled={isDisableSet}/>
         </div>
-    )
+    }, [errorInputMax, errorInputStart, inputMax, inputStart, isDisableSet])
 
     return (
         <div className="App">
