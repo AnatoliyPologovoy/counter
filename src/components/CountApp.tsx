@@ -5,7 +5,9 @@ import SuperButton from "./SuperButton";
 import {InputCount} from "./InputCount";
 import {CountStateType, ErrorDataType} from "../state/countReducer";
 
-export type CountAppPropsType = CountStateType & {
+export type CountAppPropsType = CountStateType & CountAppDispatchType
+
+export type CountAppDispatchType = {
     incrementCount: () => void
     resetCount: () => void
     setStatusInputMode: (status: boolean) => void
@@ -13,8 +15,14 @@ export type CountAppPropsType = CountStateType & {
     setInputStart: (value: number) => void
     setCount: () => void
     setError: (error: ErrorDataType) => void
-
 }
+
+const InputCountMaxValue = React.memo(InputCount)
+const InputCountStartValue = React.memo(InputCount)
+const ButtonSet = React.memo(SuperButton)
+const ButtonIncrement = React.memo(SuperButton)
+const ButtonReset = React.memo(SuperButton)
+const MonitorMemo = React.memo(Monitor)
 
 export function CountApp(props: CountAppPropsType) {
     const {
@@ -34,7 +42,7 @@ export function CountApp(props: CountAppPropsType) {
         setError
     } = props
 
-   // const [isEditMode, setIsEditMode] = useState(false) // for 2 variant counter
+    // const [isEditMode, setIsEditMode] = useState(false) // for 2 variant counter
 
     //get data from localStorage
     // useEffect(() => {
@@ -114,18 +122,18 @@ export function CountApp(props: CountAppPropsType) {
     const settingsWindow = (
         <div className="settings">
             <div className='inputWrapper'>
-                <InputCount changeInput={changeInputMax}
+                <InputCountMaxValue changeInput={changeInputMax}
                             inputValue={inputMax}
                             title="Max value :"
                             error={errorInputMax}
                 />
-                <InputCount changeInput={changeInputStart}
+                <InputCountStartValue changeInput={changeInputStart}
                             inputValue={inputStart}
                             title="Start value :"
                             error={errorInputStart}
                 />
             </div>
-            <SuperButton cb={applySettings} name={'Set'} isDisabled={isDisableSet}/>
+            <ButtonSet cb={applySettings} name={'Set'} isDisabled={isDisableSet}/>
         </div>
     )
 
@@ -134,10 +142,10 @@ export function CountApp(props: CountAppPropsType) {
             {/*{isEditMode ?*/}
             {settingsWindow}
             <div className="main">
-                <Monitor value={monitorValue} isMaxCount={isMaxCount} error={errorData}/>
+                <MonitorMemo value={monitorValue} isMaxCount={isMaxCount} error={errorData}/>
                 <div className="styleButtonWrapper">
-                    <SuperButton cb={incrementCount} name={'+'} isDisabled={isDisableIncrement}/>
-                    <SuperButton cb={resetCount} name={'Reset'} isDisabled={isDisableReset}/>
+                    <ButtonIncrement cb={incrementCount} name={'+'} isDisabled={isDisableIncrement}/>
+                    <ButtonReset cb={resetCount} name={'Reset'} isDisabled={isDisableReset}/>
                     {/*<SuperButton cb={activateEnableMode} name={'Set'} isDisabled={false}/>*/}
                 </div>
             </div>

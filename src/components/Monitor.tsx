@@ -1,10 +1,10 @@
 import React from "react";
-import {ErrorType} from "./CountApp";
+import {ErrorDataType} from "../state/countReducer";
 
 type MonitorPropsType = {
     value: number | string
     isMaxCount: boolean
-    error: ErrorType
+    error: ErrorDataType
 
 }
 

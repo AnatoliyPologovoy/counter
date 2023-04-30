@@ -4,6 +4,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import {store} from "./state/Redux";
+import { CountAppContainer } from './components/CountAppCoutainer';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement

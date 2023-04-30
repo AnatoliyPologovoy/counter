@@ -1,19 +1,36 @@
-// const initialState: CountStateType = {
-//     countData: {
-//         count: 0,
-//         start: 0,
-//         max: 5
-//     },
-//     errorData: null,
-//     inputMax: 5,
-//     inputStart: 0,
-//     isChangeInputMode: false
-// }
+import {
+    countReducerActionsType,
+    CountStateType,
+    incrementCountAC,
+    resetCountAC,
+    setCountDataAC, setErrorAC, setInputMaxAC, setInputStartAC, setStatusInputModeAC
+} from "../state/countReducer";
+import {CountApp, CountAppDispatchType} from "./CountApp";
+import {connect} from "react-redux";
+import {AppStateType} from "../state/Redux";
 
-import {CountStateType} from "../state/countReducer";
-
-const MapStateToProps = (state: CountStateType) => {
+const mapStateToProps = (state: AppStateType):CountStateType => {
     return {
-
+        countData: state.countApp.countData,
+        errorData: state.countApp.errorData,
+        inputMax: state.countApp.inputMax,
+        inputStart: state.countApp.inputStart,
+        isChangeInputMode: state.countApp.isChangeInputMode
     }
 }
+
+const mapDispatchToProps =
+    (dispatch: (action: countReducerActionsType) => void):
+        CountAppDispatchType => {
+    return {
+        incrementCount: () => dispatch(incrementCountAC()),
+        resetCount:  () => dispatch(resetCountAC()),
+        setCount:  () => dispatch(setCountDataAC()),
+        setError:  (error) => dispatch(setErrorAC(error)),
+        setInputMax: (value) => dispatch(setInputMaxAC(value)),
+        setInputStart: (value) => dispatch(setInputStartAC(value)),
+        setStatusInputMode: (status) => dispatch(setStatusInputModeAC(status))
+    }
+}
+
+export const CountAppContainer = connect(mapStateToProps, mapDispatchToProps)(CountApp)

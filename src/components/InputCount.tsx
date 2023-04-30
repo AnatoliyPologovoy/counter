@@ -9,6 +9,7 @@ type InputCountPropsType = {
 
 export const InputCount: React.FC<InputCountPropsType> = (props) => {
     const {changeInput, inputValue, title, error} = props
+    console.log('Input render')
 
     const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
         changeInput(Number(e.currentTarget.value))

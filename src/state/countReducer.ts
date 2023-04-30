@@ -36,7 +36,7 @@ const SET_INPUT_START = 'SET-INPUT-START'
 const SET_COUNT_DATA = 'SET-COUNT-DATA'
 const SET_ERROR = 'SET-ERROR'
 
-type countReducerActionsType =
+export type countReducerActionsType =
     incrementCountActionType |
     resetCountActionType |
     setStatusInputModeActionType |
@@ -51,7 +51,7 @@ export const countReducer = (state: CountStateType = initialState, action: count
             const newCount = state.countData.count + 1
             return {...state, countData: {...state.countData, count: newCount}}
         case RESET_COUNT:
-            return {...state, countData: {...state.countData, count: 0}}
+            return {...state, countData: {...state.countData, count: state.inputStart}}
         case SET_STATUS_INPUT_MODE:
             return {...state, isChangeInputMode: action.status}
         case SET_INPUT_MAX:
@@ -60,7 +60,7 @@ export const countReducer = (state: CountStateType = initialState, action: count
             return {...state, inputStart: action.value}
         case SET_COUNT_DATA:
             const newCountData: CountDataType = {
-                count: 0,
+                count: state.inputStart,
                 max: state.inputMax,
                 start: state.inputStart
             }
@@ -72,21 +72,21 @@ export const countReducer = (state: CountStateType = initialState, action: count
     return {...state}
 }
 
-const incrementCountAC = () => {
+export const incrementCountAC = () => {
     return {
         type: INCREMENT_COUNT
     } as const
 }
 type incrementCountActionType = ReturnType<typeof incrementCountAC>
 
-const resetCountAC = () => {
+export const resetCountAC = () => {
     return {
         type: RESET_COUNT
     } as const
 }
 type resetCountActionType = ReturnType<typeof resetCountAC>
 
-const setStatusInputModeAC = (status: boolean) => {
+export const setStatusInputModeAC = (status: boolean) => {
     return {
         type: SET_STATUS_INPUT_MODE,
         status
@@ -94,7 +94,7 @@ const setStatusInputModeAC = (status: boolean) => {
 }
 type setStatusInputModeActionType = ReturnType<typeof setStatusInputModeAC>
 
-const setInputMaxAC = (value: number) => {
+export const setInputMaxAC = (value: number) => {
     return {
         type: SET_INPUT_MAX,
         value
@@ -102,7 +102,7 @@ const setInputMaxAC = (value: number) => {
 }
 type setInputMaxActionType = ReturnType<typeof setInputMaxAC>
 
-const setInputStartAC = (value: number) => {
+export const setInputStartAC = (value: number) => {
     return {
         type: SET_INPUT_START,
         value
@@ -110,14 +110,14 @@ const setInputStartAC = (value: number) => {
 }
 type setInputStartActionType = ReturnType<typeof setInputStartAC>
 
-const setCountDataAC = () => {
+export const setCountDataAC = () => {
     return {
         type: SET_COUNT_DATA
     } as const
 }
 type setCountDataActionType = ReturnType<typeof setCountDataAC>
 
-const setErrorAC = (error: ErrorDataType) => {
+export const setErrorAC = (error: ErrorDataType) => {
     return {
         type: SET_ERROR,
         error
