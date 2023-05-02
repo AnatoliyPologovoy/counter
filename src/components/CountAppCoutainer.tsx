@@ -9,7 +9,7 @@ import {CountApp, CountAppDispatchType} from "./CountApp";
 import {connect} from "react-redux";
 import {AppStateType} from "../state/Redux";
 
-const mapStateToProps = (state: AppStateType):CountStateType => {
+const mapStateToProps = (state: AppStateType): CountStateType => {
     return {
         countData: state.countApp.countData,
         errorData: state.countApp.errorData,
@@ -22,15 +22,15 @@ const mapStateToProps = (state: AppStateType):CountStateType => {
 const mapDispatchToProps =
     (dispatch: (action: countReducerActionsType) => void):
         CountAppDispatchType => {
-    return {
-        incrementCount: () => dispatch(incrementCountAC()),
-        resetCount:  () => dispatch(resetCountAC()),
-        setCount:  () => dispatch(setCountDataAC()),
-        setError:  (error) => dispatch(setErrorAC(error)),
-        setInputMax: (value) => dispatch(setInputMaxAC(value)),
-        setInputStart: (value) => dispatch(setInputStartAC(value)),
-        setStatusInputMode: (status) => dispatch(setStatusInputModeAC(status))
+        return {
+            incrementCount: () => dispatch(incrementCountAC()),
+            resetCount: () => dispatch(resetCountAC()),
+            setCount: () => dispatch(setCountDataAC()),
+            setError: (error) => dispatch(setErrorAC(error)),
+            setInputMax: (value) => dispatch(setInputMaxAC(value)),
+            setInputStart: (value) => dispatch(setInputStartAC(value)),
+            setStatusInputMode: (status) => dispatch(setStatusInputModeAC(status))
+        }
     }
-}
 
 export const CountAppContainer = connect(mapStateToProps, mapDispatchToProps)(CountApp)
