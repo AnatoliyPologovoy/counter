@@ -4,14 +4,15 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import {store} from "./state/Redux";
-import { CountAppContainer } from './components/CountAppCoutainer';
+// import { CountAppContainer } from './components/CountAppCoutainer';
+import {CountApp} from "./components/CountApp";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
 root.render(
     <Provider store={store}>
-        <CountAppContainer/>
+        <CountApp/>
     </Provider>
 );
 

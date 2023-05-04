@@ -3,7 +3,16 @@ import '../App.css';
 import {Monitor} from "./Monitor";
 import SuperButton from "./SuperButton";
 import {InputCount} from "./InputCount";
-import {CountStateType, ErrorDataType} from "../state/countReducer";
+import {
+    CountDataType,
+    CountStateType,
+    ErrorDataType,
+    incrementCountAC,
+    resetCountAC,
+    setCountDataAC, setErrorAC, setInputMaxAC, setInputStartAC, setStatusInputModeAC
+} from "../state/countReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {AppStateType} from "../state/Redux";
 
 export type CountAppPropsType = CountStateType & CountAppDispatchType
 
@@ -24,23 +33,22 @@ const ButtonIncrement = React.memo(SuperButton)
 const ButtonReset = React.memo(SuperButton)
 const MonitorMemo = React.memo(Monitor)
 
-export function CountApp(props: CountAppPropsType) {
-    const {
-        //state:
-        countData,
-        errorData,
-        inputMax,
-        inputStart,
-        isChangeInputMode,
-        //function:
-        incrementCount,
-        resetCount,
-        setStatusInputMode,
-        setInputMax,
-        setInputStart,
-        setCount,
-        setError
-    } = props
+export function CountApp() {
+    const countData = useSelector<AppStateType, CountDataType>(state => state.countApp.countData)
+    const errorData = useSelector<AppStateType, ErrorDataType>(state => state.countApp.errorData)
+    const inputMax = useSelector<AppStateType, number>(state => state.countApp.inputMax)
+    const inputStart = useSelector<AppStateType, number>(state => state.countApp.inputStart)
+    const isChangeInputMode = useSelector<AppStateType, boolean>(state => state.countApp.isChangeInputMode)
+
+    const dispatch = useDispatch()
+
+    const incrementCount = () => dispatch(incrementCountAC())
+    const resetCount = () => dispatch(resetCountAC())
+    const setCount = () => dispatch(setCountDataAC())
+    const setError = (error: ErrorDataType) => dispatch(setErrorAC(error))
+    const setInputMax = (value: number) => dispatch(setInputMaxAC(value))
+    const setInputStart = (value: number) => dispatch(setInputStartAC(value))
+    const setStatusInputMode = (status: boolean) => dispatch(setStatusInputModeAC(status))
 
     // const [isEditMode, setIsEditMode] = useState(false) // for 2 variant counter
 

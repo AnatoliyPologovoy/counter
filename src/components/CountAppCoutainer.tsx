@@ -33,4 +33,4 @@ const mapDispatchToProps =
         }
     }
 
-export const CountAppContainer = connect(mapStateToProps, mapDispatchToProps)(CountApp)
+// export const CountAppContainer = connect(mapStateToProps, mapDispatchToProps)(CountApp)
