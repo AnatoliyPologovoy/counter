@@ -64,7 +64,26 @@ export function CountApp() {
     // }, [])
 
     //checking for error
-    useEffect(() => {
+    // useEffect(() => {
+    //     let errorValue: ErrorDataType = null
+    //     if (inputStart >= inputMax) {
+    //         errorValue = {
+    //             text: 'Max value must be greater start value',
+    //             input: 'all'
+    //         }
+    //     }
+    //     if (inputStart < 0) {
+    //         errorValue = {
+    //             text: 'Start value cannot be a negative number',
+    //             input: 'start'
+    //         }
+    //     }
+    //     setError(errorValue)
+    //
+    // }, [inputMax, inputStart])
+
+
+    const checkError = (inputStart: number, inputMax: number) => {
         let errorValue: ErrorDataType = null
         if (inputStart >= inputMax) {
             errorValue = {
@@ -79,18 +98,20 @@ export function CountApp() {
             }
         }
         setError(errorValue)
-
-    }, [inputMax, inputStart])
+    }
 
     //input
-    const changeInputMax = useCallback((value: number) => {
-        setInputMax(value)
+    const changeInputMax = useCallback((maxValue: number) => {
+        setInputMax(maxValue)
         setStatusInputMode(true)
-    }, [])
-    const changeInputStart = useCallback((value: number) => {
-        setInputStart(value)
+        checkError(inputStart, maxValue)
+    }, [inputStart])
+
+    const changeInputStart = useCallback((startValue: number) => {
+        setInputStart(startValue)
         setStatusInputMode(true)
-    }, [])
+        checkError(startValue, inputMax)
+    }, [inputMax])
     // apply settings
 
     // set local storage:
