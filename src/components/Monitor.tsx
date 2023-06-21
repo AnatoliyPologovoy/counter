@@ -1,4 +1,4 @@
-import React from "react";
+import React, {memo} from "react";
 import {ErrorDataType} from "../state/countReducer";
 
 type MonitorPropsType = {
@@ -8,7 +8,7 @@ type MonitorPropsType = {
 
 }
 
-export const Monitor: React.FC<MonitorPropsType> = (props) => {
+export const Monitor: React.FC<MonitorPropsType> = memo((props) => {
     const {value, isMaxCount, error} = props
     const isValueString = typeof value === 'string'
     const displayValue = error?.text || value
@@ -32,4 +32,4 @@ export const Monitor: React.FC<MonitorPropsType> = (props) => {
             {displayValue}
         </div>
     )
-}
+})

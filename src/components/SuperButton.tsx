@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 
 type SuperButtonType = {
     cb: () => void
@@ -6,7 +6,7 @@ type SuperButtonType = {
     isDisabled: boolean
 }
 
-const SuperButton:React.FC<SuperButtonType> = ({cb, name, isDisabled}) => {
+const SuperButton:React.FC<SuperButtonType> = memo(({cb, name, isDisabled}) => {
 
     let buttonStyle = {
         padding: "10px",
@@ -16,6 +16,6 @@ const SuperButton:React.FC<SuperButtonType> = ({cb, name, isDisabled}) => {
     return (
         <button style={buttonStyle} disabled={isDisabled} onClick={cb}>{name}</button>
     );
-};
+});
 
 export default SuperButton;

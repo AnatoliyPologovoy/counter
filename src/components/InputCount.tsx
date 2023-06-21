@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, memo} from 'react';
 
 type InputCountPropsType = {
     changeInput: (value: number) => void
@@ -7,13 +7,13 @@ type InputCountPropsType = {
     error: boolean
 }
 
-export const InputCount: React.FC<InputCountPropsType> = (props) => {
+export const InputCount: React.FC<InputCountPropsType> = memo((props) => {
     const {changeInput, inputValue, title, error} = props
 
     const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
         changeInput(Number(e.currentTarget.value))
     }
-    //style
+    //styles
     const inputStyle = {
         //boxSizing: "border-box",
         padding: "3px",
@@ -35,5 +35,5 @@ export const InputCount: React.FC<InputCountPropsType> = (props) => {
             <input type={"number"} style={inputStyle} value={inputValue} onChange={onChangeInputHandler}/>
         </div>
     );
-};
+});
 

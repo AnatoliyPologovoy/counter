@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { Provider } from 'react-redux';
-import {store} from "./state/Redux";
+import {Provider} from 'react-redux';
+import {store} from "./state/Store";
 // import { CountAppContainer } from './components/CountAppCoutainer';
 import {CountApp} from "./components/CountApp";
 

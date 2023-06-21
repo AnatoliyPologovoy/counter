@@ -1,14 +1,9 @@
 export type CountStateType = {
-    countData: CountDataType
-    errorData: ErrorDataType
+    monitorCount: number
     inputMax: number
     inputStart: number
+    errorData: ErrorDataType
     isChangeInputMode: boolean
-}
-export type CountDataType = {
-    count: number
-    start: number
-    max: number
 }
 
 export type ErrorDataType = {
@@ -16,60 +11,39 @@ export type ErrorDataType = {
     input: 'all' | 'start'
 } | null
 
-const initialState: CountStateType = {
-    countData: {
-        count: 0,
-        start: 0,
-        max: 5
-    },
-    errorData: null,
-    inputMax: 5,
-    inputStart: 0,
-    isChangeInputMode: false
-}
-
 const INCREMENT_COUNT = 'INCREMENT-COUNT'
 const RESET_COUNT = 'RESET-COUNT'
 const SET_STATUS_INPUT_MODE = 'SET-STATUS-INPUT-MODE'
 const SET_INPUT_MAX = 'SET-INPUT-MAX'
 const SET_INPUT_START = 'SET-INPUT-START'
-const SET_COUNT_DATA = 'SET-COUNT-DATA'
 const SET_ERROR = 'SET-ERROR'
 
-export type countReducerActionsType =
-    incrementCountActionType |
-    resetCountActionType |
-    setStatusInputModeActionType |
-    setInputMaxActionType |
-    setInputStartActionType |
-    setCountDataActionType |
-    setErrorActionType
+const initialState: CountStateType = {
+    monitorCount: 0,
+    inputMax: 5,
+    inputStart: 0,
+    errorData: null,
+    isChangeInputMode: false
+}
 
 export const countReducer = (state: CountStateType = initialState, action: countReducerActionsType): CountStateType => {
     switch (action.type) {
         case INCREMENT_COUNT:
-            const newCount = state.countData.count + 1
-            return {...state, countData: {...state.countData, count: newCount}}
+            const newCount = state.monitorCount + 1
+            return {...state, monitorCount: newCount}
         case RESET_COUNT:
-            return {...state, countData: {...state.countData, count: state.inputStart}}
+            return {...state, monitorCount: state.inputStart}
         case SET_STATUS_INPUT_MODE:
             return {...state, isChangeInputMode: action.status}
         case SET_INPUT_MAX:
             return {...state, inputMax: action.value}
         case SET_INPUT_START:
             return {...state, inputStart: action.value}
-        case SET_COUNT_DATA:
-            const newCountData: CountDataType = {
-                count: state.inputStart,
-                max: state.inputMax,
-                start: state.inputStart
-            }
-            return {...state, countData: newCountData}
         case SET_ERROR:
             return {...state, errorData: action.error}
-
+        default:
+            return {...state}
     }
-    return {...state}
 }
 
 export const incrementCountAC = () => {
@@ -110,13 +84,6 @@ export const setInputStartAC = (value: number) => {
 }
 type setInputStartActionType = ReturnType<typeof setInputStartAC>
 
-export const setCountDataAC = () => {
-    return {
-        type: SET_COUNT_DATA
-    } as const
-}
-type setCountDataActionType = ReturnType<typeof setCountDataAC>
-
 export const setErrorAC = (error: ErrorDataType) => {
     return {
         type: SET_ERROR,
@@ -124,3 +91,11 @@ export const setErrorAC = (error: ErrorDataType) => {
     } as const
 }
 type setErrorActionType = ReturnType<typeof setErrorAC>
+
+export type countReducerActionsType =
+    incrementCountActionType |
+    resetCountActionType |
+    setStatusInputModeActionType |
+    setInputMaxActionType |
+    setInputStartActionType |
+    setErrorActionType
