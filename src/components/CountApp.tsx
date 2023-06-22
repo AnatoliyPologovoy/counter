@@ -60,18 +60,11 @@ export function CountApp() {
         setStatusInputMode(true)
         checkError(startValue, inputMax)
     }, [inputMax])
-    // apply settings
-
-    // set local storage:
-    // const setLocalStorage = (monitorCount: CountType) => {
-    //     localStorage.setItem("monitorCount", JSON.stringify(monitorCount))
-    // }
 
     const applySettings = useCallback(() => {
         resetCount()
-        // setLocalStorage(currentCountData) set local storage
-        // setIsEditMode(false) for 2 variant counter
         setStatusInputMode(false)
+        // setIsEditMode(false) for 2 variant counter
     }, [])
 
     //toggle mode for 2 variant counter
